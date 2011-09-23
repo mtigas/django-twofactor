@@ -1,0 +1,16 @@
+.svn/
+*.pyc
+*.pyo
+.DS_Store
+Thumbs.db
+*.swp
+*.lock
+*~
+*.tmp
+*.bak
+*.pid
+.pid
+.fseventsd/
+.Trashes/
+*.dat
+*.db
