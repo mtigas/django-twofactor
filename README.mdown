@@ -1,0 +1,16 @@
+## django-twofactor
+
+A django app that allows supplementing the default `django.contrib.auth` login system
+with two-factor authentication using (hopefully) any [TOTP][totp_draft] token -- 
+[Google Authenticator][goog_auth] is currently the primary support target.
+
+[totp_draft]: http://tools.ietf.org/html/draft-mraihi-totp-timebased
+[goog_auth]: http://www.google.com/support/accounts/bin/answer.py?answer=1066447
+
+Still heavily work-in-progress and entirely nonfunctional.
+
+## Proof of concept
+
+* [A proof of concept regarding how to use `python-oath` with Google Authenticator][poc_link]
+
+[poc_link]: https://gist.github.com/445567d2206a82a4e684
