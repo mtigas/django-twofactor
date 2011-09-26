@@ -1,16 +1,72 @@
-## django-twofactor
+# django-twofactor
 
-A django app that allows supplementing the default `django.contrib.auth` login system
-with two-factor authentication using (hopefully) any [TOTP][totp_draft] token -- 
-[Google Authenticator][goog_auth] is currently the primary support target.
+A django app that allows supplementing the default `django.contrib.auth` login
+system with two-factor authentication using the Time-Based One-Time Password
+(TOTP) Algorithm spec ([RFC 6238][rfc6238]).
 
-[totp_draft]: http://tools.ietf.org/html/draft-mraihi-totp-timebased
+[Google Authenticator][goog_auth] is currently the primary support target for
+tokens, but any TOTP (soft?) token that allows using a server-generated seed
+should work.
+
+[rfc6238]: http://tools.ietf.org/html/rfc6238
 [goog_auth]: http://www.google.com/support/accounts/bin/answer.py?answer=1066447
 
-Still heavily work-in-progress and entirely nonfunctional.
+**Note** This app is still heavily work-in-progress and currently
+nonfunctional.
 
-## Proof of concept
+---
 
-* [A proof of concept regarding how to use `python-oath` with Google Authenticator][poc_link]
+* [RFC 6238][rfc6238] - TOTP: Time-Based One-Time Password Algorithm
+* ...An extension of [RFC 4226][rfc4226] - HOTP: An HMAC-Based One-Time
+  Password Algorithm
+* [A proof of concept regarding how to use **python-oath** with Google Authenticator][poc_link]
 
+[rfc4226]: http://tools.ietf.org/html/rfc4226
 [poc_link]: https://gist.github.com/445567d2206a82a4e684
+
+
+## Dependencies
+
+* [pyton-oath][py_oath] -- not to be confused with "OAuth"
+* [django][django]
+
+Optionally, for performance:
+
+* [PyCrypto](https://www.dlitz.net/software/pycrypto/) -- See *PyCrypto*
+  section below, under *Security Considerations*.
+
+[py_oath]: https://github.com/bdauvergne/python-oath
+[django]: https://www.djangoproject.com/
+
+
+## Security Considerations
+
+[Section 5.1 of RFC 6238](http://tools.ietf.org/html/rfc6238#section-5.1)
+"recommends" that the shared secret key (i.e. the "seed" for the time-based
+generator) be stored securely in the validation system (i.e., the server) and
+specifies encrypting the values until their use is necessary.
+
+The key cannot be hashed (as with a password) because the raw value of the key
+is required to seed the generator. A single round of AES against
+`settings.SECRET_KEY` is used (with a randomly-generated seed appended to
+`SECRET_KEY`) as the encryption passphrase so that the value can be decrypted
+at validation time.
+
+This works sort of like this:
+
+    stored_seed = salt + "$" + hexlify(AES(
+        key = sha256(SECRET_KEY + salt),
+        value = raw_seed
+    ))
+    # i.e. 'CYM5yCSZ9Ybyu1dq$6cc094ca2e1eb46122d84ae877fff885'
+
+This isn't perfect, but it obscures the values in the database in the event
+the database is compromised but `settings.SECRET_KEY` has not been.
+
+
+### PyCrypto
+
+A copy of [**pyaes**](https://bitbucket.org/intgr/pyaes/wiki/Home) is bundled
+with this app. If **PyCrypto** is installed, that library's C-compiled
+extensions will be used instead of the (extremely slow) native Python AES
+implementation.

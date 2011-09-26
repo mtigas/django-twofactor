@@ -1,0 +1,3 @@
+settings for TOTP token type (dec6, dec8, etc.)
+
+optional support for "backup codes" a la Google's two-factor auth system

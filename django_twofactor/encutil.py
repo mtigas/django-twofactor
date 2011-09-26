@@ -4,7 +4,7 @@ http://djangosnippets.org/snippets/1095/
 """
 
 from hashlib import sha256
-#from django.conf import settings
+from django.conf import settings
 from django.utils.encoding import smart_str
 from binascii import hexlify, unhexlify
 import string
@@ -26,7 +26,7 @@ def _get_key(salt):
     """ Combines `settings.SECRET_KEY` with a salt. """
     if not salt: salt = ""
     
-    return sha256("%s%s" % ("ASDF", salt)).digest()
+    return sha256("%s%s" % (settings.SECRET_KEY, salt)).digest()
 
 def encrypt(data, salt):
     cipher = AES.new(_get_key(salt), mode=AES.MODE_ECB)

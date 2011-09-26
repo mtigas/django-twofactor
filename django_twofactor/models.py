@@ -1,13 +1,18 @@
 from django.db import models
-from django_twofactor.util import random_seed, encrypt_seed, decrypt_seed
+from django_twofactor.util import decrypt_value, check_raw_seed
 
 class UserAuthToken(models.Model):
     user = models.OneToOneField("auth.User")
-    encrypted_seed = models.CharField(max_length=120) # enough for 16-byte salt + 40-byte seed
+    encrypted_seed = models.CharField(max_length=120) #fits 16b salt+40b seed
     
-    # TODO:
-    # In a perfect world, the seed would be encrypted with the user's password
-    # and the `encrypted_seed` value would update whenever the user changes his/her
-    # password. This way, the seed stays entirely secure until the first factor (username+password)
-    # has been validated.
-    #  -> Is there any way to do this without going all hack-and-slash in here?
+    created_datetime = models.DateTimeField(
+        verbose_name="created", auto_now_add=True)
+    updated_datetime = models.DateTimeField(
+        verbose_name="last updated", auto_now=True)
+    
+    def check_auth_code(self, auth_code):
+        """
+        Checks whether `auth_code` is a valid authentication code for this
+        user, at the current time.
+        """
+        return check_raw_seed(decrypt_value(self.encrypted_seed), auth_code)

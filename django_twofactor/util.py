@@ -21,13 +21,19 @@ def random_seed(rawsize=10):
         randstr = ''.join([ chr(random.randint(0, 255)) for i in range(rawsize) ])
     return randstr
 
-def encrypt_seed(raw_seed):
+def encrypt_value(raw_value):
     salt = _gen_salt()
-    return "%s$%s" %  (salt, encrypt(raw_seed, salt))
+    return "%s$%s" %  (salt, encrypt(raw_value, salt))
 
-def decrypt_seed(salted_seed):
-    salt, encrypted_seed = salted_seed.split("$", 1)
-    return decrypt(encrypted_seed, salt)
+def decrypt_value(salted_value):
+    salt, encrypted_value = salted_value.split("$", 1)
+    return decrypt(encrypted_value, salt)
 
 def check_raw_seed(raw_seed, auth_code, token_type="dec6"):
+    """
+    Checks whether `auth_code` is a valid authentication code at the current time,
+    based on the `raw_seed` (raw byte string representation of `seed`).
+    """
     return accept_totp(auth_code, hexlify(raw_seed), token_type)
+    
+    
