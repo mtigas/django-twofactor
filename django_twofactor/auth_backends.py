@@ -1,7 +1,6 @@
 from django.contrib.auth.models import User
 from django.contrib.auth.backends import ModelBackend
 from django_twofactor.models import UserAuthToken
-from django_twofactor.util import decrypt_seed, check_raw_seed
 
 class TwoFactorAuthBackend(ModelBackend):
     def authenticate(self, username=None, password=None, token=None):
@@ -16,8 +15,7 @@ class TwoFactorAuthBackend(ModelBackend):
                 # User doesn't have two-factor authentication enabled.
                 return user_or_none
             
-            raw_seed = decrypt_seed(token.encrypted_seed)
-            validate = check_raw_seed(check_raw_seed, token)
+            validate = token.check_auth_code(token)
             if (validate[0] == True):
                 return user_or_none
             else:

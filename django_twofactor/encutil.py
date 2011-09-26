@@ -15,7 +15,7 @@ try:
 except ImportError:
     from django_twofactor import pyaes as AES
 
-# Get best `random `implementation we can.
+# Get best `random` implementation we can.
 import random
 try:
     random = random.SystemRandom()

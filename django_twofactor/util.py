@@ -26,6 +26,5 @@ def check_raw_seed(raw_seed, auth_code, token_type="dec6"):
     Checks whether `auth_code` is a valid authentication code at the current time,
     based on the `raw_seed` (raw byte string representation of `seed`).
     """
-    return accept_totp(auth_code, hexlify(raw_seed), token_type)
-    
+    return accept_totp(auth_code, hexlify(raw_seed), token_type)[0]
     
