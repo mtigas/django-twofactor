@@ -2,24 +2,16 @@ from binascii import hexlify
 from django_twofactor.encutil import encrypt, decrypt, _gen_salt
 from oath import accept_totp
 
-# Secure random generators
+# Get best `random` implementation we can.
 import random
 try:
     random = random.SystemRandom()
 except:
     pass
-try:
-    from os import urandom
-except:
-    urandom = None
 
 def random_seed(rawsize=10):
     """ Generates a random seed as a raw byte string. """
-    if urandom:
-        randstr = urandom(rawsize)
-    else:
-        randstr = ''.join([ chr(random.randint(0, 255)) for i in range(rawsize) ])
-    return randstr
+    return ''.join([ chr(random.randint(0, 255)) for i in range(rawsize) ])
 
 def encrypt_value(raw_value):
     salt = _gen_salt()

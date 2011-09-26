@@ -8,11 +8,14 @@ from django.conf import settings
 from django.utils.encoding import smart_str
 from binascii import hexlify, unhexlify
 import string
+
+# Get best AES implementation we can.
 try:
     from Crypto.Cipher import AES
 except ImportError:
     from django_twofactor import pyaes as AES
 
+# Get best `random `implementation we can.
 import random
 try:
     random = random.SystemRandom()
