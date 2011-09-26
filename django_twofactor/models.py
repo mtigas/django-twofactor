@@ -16,3 +16,5 @@ class UserAuthToken(models.Model):
         user, at the current time.
         """
         return check_raw_seed(decrypt_value(self.encrypted_seed), auth_code)
+
+from django_twofactor import auth_forms
