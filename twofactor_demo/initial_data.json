@@ -1,0 +1,48 @@
+[
+  {
+    "pk": 1, 
+    "model": "auth.user", 
+    "fields": {
+      "username": "test_notwofactor", 
+      "first_name": "", 
+      "last_name": "", 
+      "is_active": true, 
+      "is_superuser": true, 
+      "is_staff": true, 
+      "last_login": "2011-09-26 18:42:16", 
+      "groups": [], 
+      "user_permissions": [], 
+      "password": "sha1$bdafc$ea0a73cdf7c6b43d41a3cde31816a7cc1d64f25c", 
+      "email": "test@example.com", 
+      "date_joined": "2011-09-26 18:42:16"
+    }
+  }, 
+  {
+    "pk": 2, 
+    "model": "auth.user", 
+    "fields": {
+      "username": "test_twofactor", 
+      "first_name": "", 
+      "last_name": "", 
+      "is_active": true, 
+      "is_superuser": true, 
+      "is_staff": true, 
+      "last_login": "2011-09-26 18:42:34", 
+      "groups": [], 
+      "user_permissions": [], 
+      "password": "sha1$2e270$5064b1f3b919e8a1d4f4adfe815b97af7ca9721d", 
+      "email": "test2@example.com", 
+      "date_joined": "2011-09-26 18:42:34"
+    }
+  }, 
+  {
+    "pk": 1, 
+    "model": "django_twofactor.userauthtoken", 
+    "fields": {
+      "created_datetime": "2011-09-26 18:44:21", 
+      "encrypted_seed": "huLlVFedkla7yRJJ$d3cf80e72ece0607ec8476de4b26e3312bf4ce322e74889f17f94f6643687938", 
+      "user": 2, 
+      "updated_datetime": "2011-09-26 18:44:21"
+    }
+  }
+]

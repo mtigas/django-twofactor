@@ -1,0 +1,12 @@
+from django.contrib.auth.models import User
+from django_twofactor.util import random_seed, get_google_url
+from django_twofactor.models import UserAuthToken
+from base64 import b32encode
+
+user = User.objects.get(pk=2)
+seed = random_seed(30)
+UserAuthToken(user=user, encrypted_seed=encrypt_value(seed)).save()
+
+print "Seed (for Google Authenticator): ", b32encode(seed)
+print "Or scan QR code in this URL:"
+print "\t\t", get_google_url(seed)

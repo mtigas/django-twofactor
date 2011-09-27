@@ -10,13 +10,13 @@ class TwoFactorAuthBackend(ModelBackend):
         if user_or_none and isinstance(user_or_none, User):
             # Got a valid login. Now check token.
             try:
-                token = UserAuthToken.objects.get(user=user_or_none)
+                user_token = UserAuthToken.objects.get(user=user_or_none)
             except UserAuthToken.DoesNotExist:
                 # User doesn't have two-factor authentication enabled.
                 return user_or_none
             
-            validate = token.check_auth_code(token)
-            if (validate[0] == True):
+            validate = user_token.check_auth_code(token)
+            if (validate == True):
                 return user_or_none
             else:
                 return None

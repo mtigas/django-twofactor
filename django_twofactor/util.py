@@ -1,4 +1,6 @@
+from base64 import b32encode
 from binascii import hexlify
+from urllib import urlencode
 from django_twofactor.encutil import encrypt, decrypt, _gen_salt
 from oath import accept_totp
 
@@ -27,4 +29,22 @@ def check_raw_seed(raw_seed, auth_code, token_type="dec6"):
     based on the `raw_seed` (raw byte string representation of `seed`).
     """
     return accept_totp(auth_code, hexlify(raw_seed), token_type)[0]
+
+def get_google_url(raw_seed, hostname=None):
+    # Note: Google uses base32 for it's encoding rather than hex.
+    b32secret = b32encode( raw_seed )
+    if not hostname:
+        from socket import gethostname
+        hostname = gethostname()
     
+    data = "otpauth://totp/%(hostname)s?secret=%(secret)s" % {
+        "hostname":hostname,
+        "secret":b32secret,
+    }
+    url = "https://chart.googleapis.com/chart?" + urlencode({
+        "chs":"200x200",
+        "chld":"M|0",
+        "cht":"qr",
+        "chl":data
+    })
+    return b32secret, url
