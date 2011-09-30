@@ -47,4 +47,4 @@ def get_google_url(raw_seed, hostname=None):
         "cht":"qr",
         "chl":data
     })
-    return b32secret, url
+    return url
