@@ -1,0 +1,25 @@
+{% extends "twofactor_admin/base_site.html" %}
+{% load i18n adminmedia %}
+{% load url from future %}
+{% block extrastyle %}{{ block.super }}<link rel="stylesheet" type="text/css" href="{% admin_media_prefix %}css/forms.css" />{% endblock %}
+{% block userlinks %}{% include "twofactor_admin/_userlinks.html" %}{% endblock %}
+{% block breadcrumbs %}<div class="breadcrumbs"><a href="../">{% trans 'Home' %}</a> &rsaquo; {% trans 'Two-factor authentication' %}</div>{% endblock %}
+
+{% block title %}{% trans 'Two-factor authentication' %}{% endblock %}
+
+{% block content %}<div id="content-main">
+
+<p>{% trans "Two-factor authentication enabled" %}. Please scan the following QR code into your authentication device or manually enter the information below:</p>
+<p><img src="{{ token.google_url }}"/></p>
+<ul>
+<li><b>Auth type</b>: Time Based</li>
+<li><b>Account</b>: {{ user.username }}</li>
+<li><b>Key</b>: {{ token.b32_secret }}</li>
+</ul>
+
+</div>
+
+{% endblock %}
+
+
+

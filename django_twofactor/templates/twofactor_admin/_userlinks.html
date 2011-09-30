@@ -1,0 +1,10 @@
+{% load i18n %}
+{% load url from future %}
+    {% url 'django-admindocs-docroot' as docsroot %}
+    {% if docsroot %}
+        <a href="{{ docsroot }}">{% trans 'Documentation' %}</a> /
+    {% endif %}
+    <a href="{% url 'admin:twofactor_config' %}">{% trans 'Two-factor authentication' %}</a> /
+    <a href="{% url 'admin:password_change' %}">{% trans 'Change password' %}</a> /
+    <a href="{% url 'admin:logout' %}">{% trans 'Log out' %}</a>
+
