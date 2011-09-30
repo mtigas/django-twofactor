@@ -1,0 +1,27 @@
+# Easy setup
+
+    virtualenv --no-site-packages django-twofactor
+    cd django-twofactor
+    echo "export PYTHONPATH=\"\$VIRTUAL_ENV/repo\"" >> bin/activate
+    echo "export PIP_RESPECT_VIRTUALENV=true" >> bin/activate
+    echo "export DJANGO_SETTINGS_MODULE=\"twofactor_demo.settings\"" >> bin/activate
+    
+    source bin/activate
+    git clone git://github.com/mtigas/django-twofactor.git repo
+    pip install -r repo/requirements.txt
+    pip install pycrypto
+    
+    cd repo/twofactor_demo
+    django-admin.py syncdb --noinput
+    django-admin.py runserver
+
+### Test accounts
+
+    Username: test_notwofactor
+    Password: test
+
+    Username:   test_twofactor
+    Password:   test
+    Token Seed: (TODO)
+
+
