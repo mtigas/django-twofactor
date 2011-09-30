@@ -15,10 +15,16 @@
     django-admin.py syncdb --noinput
     django-admin.py runserver
 
-### Test accounts
+Open http://127.0.0.1:8000/admin/
+
+## Test accounts
+
+The following account does not have two-factor authentication enabled.
 
     Username: test_notwofactor
     Password: test
+
+The following account has two-factor authentication enabled, but I neglected to save the secret seed.
 
     Username:   test_twofactor
     Password:   test
