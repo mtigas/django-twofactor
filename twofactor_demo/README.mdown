@@ -35,15 +35,3 @@ The following account has two-factor authentication enabled. If you are using
 [goog_auth]: http://www.google.com/support/accounts/bin/answer.py?answer=1066447
 
 <img src="https://chart.googleapis.com/chart?chl=otpauth%3A%2F%2Ftotp%2Ftest_twofactor%40twofactor_demo%3Fsecret%3D34YKAEGB2GLGVZDKJLJMLDQJ4N6VTHDYWCL4HPKDP6CX477Q&chs=200x200&cht=qr&chld=M%7C0"/>
-
-## Caveat
-
-**Current bug**: Because we have subclassed the default Django `adminsite` but
-have not modified it in-place, none of the INSTALLED_APPS (i.e. auth, sites)
-show up as accessible to either of the test users (because no apps are
-registered with this `AdminSite` instance). Consider this nothing more than a
-test against the authentication bits.
-
-You can create more users by using `django-admin.py createsuperuser` in the
-shell if you'd like to test what it is like to enable two-factor authentication
-on a "bare" user.

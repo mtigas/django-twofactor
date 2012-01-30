@@ -1,10 +1,12 @@
 from django.conf.urls.defaults import patterns, include, url
 
-# Uncomment the next two lines to enable the admin:
+# Replace `admin.site` with `twofactor_admin_site` before doing autodiscover
+# so that we can get the default auto-registered behavior BUT use our
+# `AdminSite` subclass.
 from django.contrib import admin
-admin.autodiscover()
-
 from django_twofactor.adminsite import twofactor_admin_site
+admin.site = twofactor_admin_site
+admin.autodiscover()
 
 urlpatterns = patterns('',
     # Examples:
@@ -14,5 +16,5 @@ urlpatterns = patterns('',
     # Uncomment the admin/doc line below to enable admin documentation:
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
 
-    url(r'^admin/', include(twofactor_admin_site.urls)),
+    url(r'^admin/', include(admin.site.urls)),
 )
