@@ -1,2 +1,3 @@
--e git://github.com/bdauvergne/python-oath.git@59f102a6384089dc91260d54f91da9017b0fb5ae#egg=oath-dev
-Django>=1.3.1
+oath==1.0
+#django>=1.3,<1.5
+-e svn+https://code.djangoproject.com/svn/django/trunk/#egg=django-dev
