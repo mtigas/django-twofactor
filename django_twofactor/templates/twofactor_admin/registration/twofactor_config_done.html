@@ -12,7 +12,7 @@
 <p>{% trans "Two-factor authentication enabled" %}. Please scan the following QR code into your authentication device or manually enter the information below:</p>
 <p><img src="{{ token.google_url }}"/></p>
 <ul>
-<li><b>Auth type</b>: Time Based</li>
+<li><b>Auth type</b>: Time Based (TOTP)</li>
 <li><b>Account</b>: {{ user.username }}</li>
 <li><b>Key</b>: {{ token.b32_secret }}</li>
 </ul>
