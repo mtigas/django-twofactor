@@ -2,8 +2,9 @@ from django import forms
 from django_twofactor.models import UserAuthToken
 from django_twofactor.util import random_seed, encrypt_value
 
+
 class ResetTwoFactorAuthForm(forms.Form):
-    confirmation = forms.BooleanField(required=True)
+    reset_confirmation = forms.BooleanField(required=True)
 
     def __init__(self, user, *args, **kwargs):
         self.user = user
@@ -22,3 +23,18 @@ class ResetTwoFactorAuthForm(forms.Form):
         token.save()
         return token
 
+
+class DisableTwoFactorAuthForm(forms.Form):
+    disable_confirmation = forms.BooleanField(required=True)
+
+    def __init__(self, user, *args, **kwargs):
+        self.user = user
+        super(DisableTwoFactorAuthForm, self).__init__(*args, **kwargs)
+
+    def save(self):
+        if not self.user:
+            return None
+
+        UserAuthToken.objects.filter(user=self.user).delete()
+
+        return self.user

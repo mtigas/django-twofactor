@@ -9,11 +9,9 @@
 
 {% block content %}<div id="content-main">
 
-<form action="" method="post">{% csrf_token %}
-<div>
-{% if form.errors %}
+{% if resetform.errors or disableform.errors %}
     <p class="errornote">
-    {% blocktrans count form.errors.items|length as counter %}Please correct the error below.{% plural %}Please correct the errors below.{% endblocktrans %}
+    Please correct the error below.
     </p>
 {% endif %}
 
@@ -25,21 +23,45 @@
 <p>{% trans "Two-factor authentication is <b>disabled</b> for this account. If you wish enable authentication, please confirm below:" %}</p>
 {% endif %}
 
-<fieldset class="module aligned wide">
+<div>
+    <h2>{% if has_token %}{% trans 'Reset authentication' %}{% else %}{% trans 'Enable authentication' %}{% endif %}</h2>
 
-<div class="form-row">
-    {{ form.confirmation.errors }}
-    <label for="id_confirmation" class="required">{% if has_token %}{% trans 'Reset authentication' %}{% else %}{% trans 'Enable authentication' %}{% endif %}:</label>{{ form.confirmation }}
+    <p>Create a new token.{% if has_token %} All existing authentication devices will no longer work.{% endif %}</p>
+    <form id="resetform" action="" method="post">{% csrf_token %}
+    <fieldset class="module aligned wide">
+
+    <div class="form-row">
+        {{ resetform.reset_confirmation.errors }}
+        <label for="id_reset_confirmation" class="required">{% if has_token %}{% trans 'Reset authentication' %}{% else %}{% trans 'Enable authentication' %}{% endif %}:</label>{{ resetform.reset_confirmation }}
+    </div>
+
+    </fieldset>
+
+    <div class="submit-row">
+        <input type="submit" value="{% trans 'Submit' %}" class="default" />
+    </div>
+    </form>
 </div>
 
-</fieldset>
+{% if has_token %}<div>
+    <h2>Disable two-factor authentication</h2>
+    <form id="disableform" action="" method="post">{% csrf_token %}
+    <fieldset class="module aligned wide">
 
-<div class="submit-row">
-    <input type="submit" value="{% trans 'Submit' %}" class="default" />
-</div>
+    <div class="form-row">
+        {{ disableform.disable_confirmation.errors }}
+        <label for="id_disable_confirmation" class="required">{% trans 'Disable authentication' %}:</label>{{ disableform.disable_confirmation }}
+    </div>
+
+    </fieldset>
+
+    <div class="submit-row">
+        <input type="submit" value="{% trans 'Submit' %}" class="default" />
+    </div>
+    </form>
+</div>{% endif %}
 
 </div>
-</form></div>
 
 {% endblock %}
 

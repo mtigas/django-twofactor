@@ -1,6 +1,7 @@
 from django.contrib.admin.sites import AdminSite
 from django_twofactor.auth_forms import TwoFactorAdminAuthenticationForm
-from django_twofactor.forms import ResetTwoFactorAuthForm
+from django_twofactor.forms import (ResetTwoFactorAuthForm,
+    DisableTwoFactorAuthForm)
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django_twofactor.models import UserAuthToken
@@ -26,23 +27,46 @@ class TwoFactorAuthAdminSite(AdminSite):
         """
         Handles two-factor authenticator configuration.
         """
-        f = None
-        if request.method == "POST":
-            f = ResetTwoFactorAuthForm(user=request.user, data=request.POST)
-            if f.is_valid():
-                token = f.save()
+        disableform = None
+        resetform = None
+        if (request.method == "POST")\
+        and ("reset_confirmation" in request.POST):
+            # We are resetting the user's two-factor key.
+            resetform = ResetTwoFactorAuthForm(user=request.user,
+                data=request.POST)
+            if resetform.is_valid():
+                token = resetform.save()
                 return render_to_response(
                     "twofactor_admin/registration/twofactor_config_done.html",
-                    dict(form=f, token=token, user=request.user),
+                    dict(token=token, user=request.user),
                     context_instance=RequestContext(request)
                 )
-        if not f:
-            f = ResetTwoFactorAuthForm(user=None)
+        elif (request.method == "POST")\
+        and ("disable_confirmation" in request.POST):
+            # We are disabling two-factor auth for the user
+            disableform = DisableTwoFactorAuthForm(user=request.user,
+                data=request.POST)
+            if disableform.is_valid():
+                disableform.save()
+                return render_to_response(
+                    "twofactor_admin/registration/twofactor_config_disabled.html",
+                    dict(user=request.user),
+                    context_instance=RequestContext(request)
+                )
+        if not resetform:
+            resetform = ResetTwoFactorAuthForm(user=None)
+        if not disableform:
+            disableform = DisableTwoFactorAuthForm(user=None)
+
         has_token = bool(UserAuthToken.objects.filter(user=request.user))
 
         return render_to_response(
             "twofactor_admin/registration/twofactor_config.html",
-            dict(form=f, has_token=has_token),
+            dict(
+                resetform=resetform,
+                disableform=disableform,
+                has_token=has_token
+            ),
             context_instance=RequestContext(request)
         )
 
