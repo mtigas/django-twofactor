@@ -15,7 +15,10 @@
     django-admin.py syncdb --noinput
     django-admin.py runserver
 
-Open http://127.0.0.1:8000/admin/
+Open http://127.0.0.1:8000/
+
+The admin site at http://127.0.0.1:8000/admin/ works, too (and allows you to
+update your two-factor auth options).
 
 ## Test accounts
 

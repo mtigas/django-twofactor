@@ -1,0 +1,110 @@
+<html>
+{% load url from future %}
+
+<head>
+{% if user.is_authenticated and user.is_active %}
+    <title>Logged in</title>
+{% else %}
+    <title>Please log in</title>
+{% endif %}
+
+<style type="text/css">
+/* Basic styles for the form since this is just a plain HTML page */
+form .error {
+    color: red;
+    font-style: italic
+}
+form th {
+    text-align:left;
+    width: 165px;
+}
+form label {
+    font-weight: normal
+}
+form label.required {
+    font-weight: bold;
+}
+
+/* Hide the "token info" bit and show it as a box when someone hovers over
+   the "?" portion
+*/
+#token_info {
+    position:relative; /*this is the key*/
+    z-index:24; background-color:#eee;
+    color:#000;
+    text-decoration:none
+}
+#token_info:hover{z-index:25; background-color:#fff}
+#token_info span{display: none}
+#token_info:hover span{ /*the span will display just on :hover state*/
+    display:block;
+    position:absolute;
+    top:2em; left:2em; width:15em;
+    padding:5px;
+    border:1px solid #000;
+    background-color:#fff;
+    color:#000;
+    text-align: left}
+</style>
+</head>
+
+<body>
+{% comment %}
+    Since `django.contrib.auth.context_processors.auth` is in `TEMPLATE_CONTEXT_PROCESSORS`
+    by default, we can use `user` straight up.
+{% endcomment %}
+
+{% if user.is_authenticated and user.is_active %}
+    <h1>Logged in</h1>
+
+    <p>You are logged in as <b>{% firstof user.get_full_name user %}</b>. <a href="/logout/">Click here to log out</a>.</p>
+{% else %}
+    <h1>Please log in</h1>
+
+    <form method="post" action="{% url 'django.contrib.auth.views.login' %}">
+    {% csrf_token %}
+    <table>
+    {# ------------ #}
+    {# Show form errors that aren't specific to a field (bad username/password/auth code) #}
+        {% if form.non_field_errors %}
+        <tr><td colspan="2"><ul>
+        {% for error in form.non_field_errors %}
+            <li>{{ error }}</li>
+        {% endfor %}
+        </ul></td></tr>
+        {% endif %}
+    {# ------------ #}
+    {# Standard login form bits: #}
+    <tr>
+        <th><label for="id_username" class="required{% if form.username.errors %} error{% endif %}">Username:</label></th>
+        <td>
+        {{ form.username }}
+        {% if not form.non_field_errors %}<br />{{ form.username.errors }}{% endif %}
+        </td>
+    </tr>
+    <tr>
+        <th><label for="id_password" class="required{% if form.password.errors %} error{% endif %}">Password:</label></th>
+        <td>
+        {{ form.password }}
+        {% if not form.non_field_errors %}<br />{{ form.password.errors }}{% endif %}
+        </td>
+    </tr>
+    {# ------------ #}
+    {# Custom display for auth code that displays help text as a hover-over #}
+    <tr>
+        <th><label for="id_token" class="{% if form.token.errors %}error{% endif %}">Auth Code
+        [<a href="#" id="token_info">?<span>{{ form.token.help_text }}</span></a>]:</label>
+        </th>
+        <td>
+        {{ form.token }}
+        {% if not form.non_field_errors %}<br />{{ form.token.errors }}{% endif %}
+        </td>
+    </tr>
+    </table>
+
+    <input type="submit" value="Log in" />
+    <input type="hidden" name="next" value="{% url 'django.contrib.auth.views.login' %}" />
+    </form>
+{% endif %}
+</body>
+</html>
