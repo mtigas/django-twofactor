@@ -24,10 +24,14 @@ The following account does not have two-factor authentication enabled.
     Username: test_notwofactor
     Password: test
 
-The following account has two-factor authentication enabled, but I neglected to save the secret seed.
+The following account has two-factor authentication enabled. If you are using
+[Google Authenticator][goog_auth], you can enter in the Token Seed manually
+(as the "Time Based" key) or by scanning the QR code below.
 
     Username:   test_twofactor
     Password:   test
-    Token Seed: (TODO)
+    Token Seed: 34YKAEGB2GLGVZDKJLJMLDQJ4N6VTHDYWCL4HPKDP6CX477Q
 
+[goog_auth]: http://www.google.com/support/accounts/bin/answer.py?answer=1066447
 
+<img src="https://chart.googleapis.com/chart?chl=otpauth%3A%2F%2Ftotp%2Ftest_twofactor%40twofactor_demo%3Fsecret%3D34YKAEGB2GLGVZDKJLJMLDQJ4N6VTHDYWCL4HPKDP6CX477Q&chs=200x200&cht=qr&chld=M%7C0"/>

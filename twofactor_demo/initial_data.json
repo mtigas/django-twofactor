@@ -39,10 +39,10 @@
     "pk": 1, 
     "model": "django_twofactor.userauthtoken", 
     "fields": {
-      "created_datetime": "2011-09-26 18:44:21", 
-      "encrypted_seed": "huLlVFedkla7yRJJ$d3cf80e72ece0607ec8476de4b26e3312bf4ce322e74889f17f94f6643687938", 
+      "created_datetime": "2012-01-30T03:04:54.015", 
+      "encrypted_seed": "Wfmn2OOhKCGa7FG3$9f17f17971ab58e758cbdc25ffc3629a751545c7c78f70b76d4cb3a381688f3a", 
       "user": 2, 
-      "updated_datetime": "2011-09-26 18:44:21"
+      "updated_datetime": "2012-01-30T03:04:54.016"
     }
   }
 ]
