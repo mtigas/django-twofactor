@@ -11,10 +11,7 @@ should work.
 [rfc6238]: http://tools.ietf.org/html/rfc6238
 [goog_auth]: http://www.google.com/support/accounts/bin/answer.py?answer=1066447
 
-**Note** This app is still heavily work-in-progress and currently
-nonfunctional.
-
----
+Some notes:
 
 * [RFC 6238][rfc6238] - TOTP: Time-Based One-Time Password Algorithm
 * ...An extension of [RFC 4226][rfc4226] - HOTP: An HMAC-Based One-Time
@@ -24,6 +21,36 @@ nonfunctional.
 [rfc4226]: http://tools.ietf.org/html/rfc4226
 [poc_link]: https://gist.github.com/445567d2206a82a4e684
 
+---
+
+## Current status
+
+This app is a work in progress. It is not much farther than "proof of concept,"
+however. Clone the source and look at [twofactor_demo/README.mdown](demo_readme)
+for a quick demo (including steps on how to set it up).
+
+The basics work:
+
+* If the special `adminsite` subclass is used, all login forms are replaced
+  with one that has an optional "Auth Code" field. (Users with two-factor auth
+  enabled will be required to enter this.)
+* In the admin, a "Two-factor Authentication" link shows up next to the "Change
+  password" link. From here, a user may enable two-factor auth (if it is not
+  enabled), reset their auth token (to allow migration to a new device), or
+  disable two-factor auth (if it is enabled).
+
+What does not work:
+
+* (Optional) backup codes or some ability to reset your auth token (or even
+  simply log in) if you have lost your token. Optional because in some usecases
+  this is a feature for high security that require manual intervention (support
+  call to have a human verify and reset). FWIW, Google does provide this in the
+  form of temporary, one-time-use codes that are received when two-factor
+  authentication is turned on.
+
+[demo_readme]: https://github.com/mtigas/django-twofactor/tree/master/twofactor_demo
+
+---
 
 ## Dependencies
 
