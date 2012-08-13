@@ -12,12 +12,15 @@ class TwoFactorAuthBackend(ModelBackend):
             try:
                 user_token = UserAuthToken.objects.get(user=user_or_none)
             except UserAuthToken.DoesNotExist:
-                # User doesn't have two-factor authentication enabled.
+                # User doesn't have two-factor authentication enabled, so
+                # just return the User object.
                 return user_or_none
             
             validate = user_token.check_auth_code(token)
             if (validate == True):
+                # Auth code was valid.
                 return user_or_none
             else:
+                # Bad auth code
                 return None
         return user_or_none

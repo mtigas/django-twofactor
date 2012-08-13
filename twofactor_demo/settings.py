@@ -151,3 +151,10 @@ LOGGING = {
 AUTHENTICATION_BACKENDS = (
     'django_twofactor.auth_backends.TwoFactorAuthBackend',
 )
+
+# See twofactor_demo/README.mdown
+TWOFACTOR_OPTIONS = {
+    #'period': 30, # default
+    'forward_drift': 4, # allow a code from four "steps" (up to 2:00) in the future, in case of bad clock sync.
+    'backward_drift': 2, # allow a code from two "steps" (up to 1:00) in the past, in case of bad clock sync.
+}

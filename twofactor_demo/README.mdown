@@ -40,3 +40,47 @@ The following account has two-factor authentication enabled. If you are using
 [goog_auth]: http://www.google.com/support/accounts/bin/answer.py?answer=1066447
 
 <img src="https://chart.googleapis.com/chart?chl=otpauth%3A%2F%2Ftotp%2Ftest_twofactor%40twofactor_demo%3Fsecret%3D34YKAEGB2GLGVZDKJLJMLDQJ4N6VTHDYWCL4HPKDP6CX477Q&chs=200x200&cht=qr&chld=M%7C0"/>
+
+## Settings
+
+The settings file as-is will allow you to `syncdb` and pre-load the above
+users. It also provides the following "new" settings:
+
+```python
+AUTHENTICATION_BACKENDS = (
+    'django_twofactor.auth_backends.TwoFactorAuthBackend',
+)
+
+TWOFACTOR_OPTIONS = {
+    #'period': 30, # default
+    'forward_drift': 4, # allow a code from four "steps" (up to 2:00) in the future, in case of bad clock sync.
+    'backward_drift': 2, # allow a code from two "steps" (up to 1:00) in the past, in case of bad clock sync.
+}
+```
+
+`AUTHENTICATION_BACKENDS` is simply how the two-factor authentication
+currently hooks into Django's built-in auth module. (As per [Django's
+contrib.auth documentation][auth_backends].)
+
+[auth_backends]: https://docs.djangoproject.com/en/1.4/topics/auth/#specifying-authentication-backends
+
+`TWOFACTOR_OPTIONS` currently accepts a few options that affect how time-sensitive
+the time-based authentication codes are: `period`, `forward_drift`, and `backward_drift`.
+
+* Time-based authentication codes are generated based on the system clock and
+  last for a certain `period`. Currently, since we rely on Google Authenticator,
+  this defaults to 30 seconds and should not be changed.
+* `forward_drift` and `backward_drift` allow a code from *periods* in the future
+  or past. These default to 1 -- meaning if you enter in a code that has just disappeared
+  or have entered in a code and your phone clock is fast, the code will still be
+  accepted. (They are set to 4 and 2 in the demo settings because cellular networks
+  are not always in sync with NTP; first-hand experience using Google Authenticator
+  for Google services seems to show that Google's allowable drift is *at least* 4.)
+
+If you are interested in deeper analysis of these settings, you should
+read [RFC6238][rfc6238]: `period` is referred to as "X" or the "time step",
+and clock drift is referred to in section 6 ("Resynchronization"). The [underlying
+method in python-oath][accept_totp] is useful to look at, too.
+
+[rfc6238]: https://tools.ietf.org/html/rfc6238
+[accept_totp]: https://github.com/bdauvergne/python-oath/blob/v1.0/oath/totp.py#L61
