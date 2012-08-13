@@ -114,6 +114,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.admin',
     'django_twofactor',
+    'twofactor_demo',
 )
 
 # A sample logging configuration. The only tangible logging
