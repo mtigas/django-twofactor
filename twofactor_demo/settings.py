@@ -153,8 +153,14 @@ AUTHENTICATION_BACKENDS = (
 )
 
 # See twofactor_demo/README.mdown
-TWOFACTOR_OPTIONS = {
+TWOFACTOR_TOTP_OPTIONS = {
     #'period': 30, # default
     'forward_drift': 4, # allow a code from four "steps" (up to 2:00) in the future, in case of bad clock sync.
     'backward_drift': 2, # allow a code from two "steps" (up to 1:00) in the past, in case of bad clock sync.
 }
+# Make this any string. This should be like a SECRET_KEY that you never, ever change.
+# If you want to make this really secure, check out twofactor_demo/README.mdown
+# for ways to generate this.
+# (NOTE: don't change this when running this demo)
+#TWOFACTOR_ENCRYPTION_KEY = '=S$\'d!Dj@jXv-A;tR5TjDaYh1+Ug;"\'ou\'`iOS4M#_+.buNjbG'
+TWOFACTOR_ENCRYPTION_KEY = ''

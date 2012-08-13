@@ -56,6 +56,8 @@ TWOFACTOR_OPTIONS = {
     'forward_drift': 4, # allow a code from four "steps" (up to 2:00) in the future, in case of bad clock sync.
     'backward_drift': 2, # allow a code from two "steps" (up to 1:00) in the past, in case of bad clock sync.
 }
+
+TWOFACTOR_ENCRYPTION_KEY = ''
 ```
 
 `AUTHENTICATION_BACKENDS` is simply how the two-factor authentication
@@ -64,7 +66,7 @@ contrib.auth documentation][auth_backends].)
 
 [auth_backends]: https://docs.djangoproject.com/en/1.4/topics/auth/#specifying-authentication-backends
 
-`TWOFACTOR_OPTIONS` currently accepts a few options that affect how time-sensitive
+`TWOFACTOR_TOTP_OPTIONS` currently accepts a few options that affect how time-sensitive
 the time-based authentication codes are: `period`, `forward_drift`, and `backward_drift`.
 
 * Time-based authentication codes are generated based on the system clock and
@@ -84,3 +86,10 @@ method in python-oath][accept_totp] is useful to look at, too.
 
 [rfc6238]: https://tools.ietf.org/html/rfc6238
 [accept_totp]: https://github.com/bdauvergne/python-oath/blob/v1.0/oath/totp.py#L61
+
+`TWOFACTOR_ENCRYPTION_KEY` should be a unique value that you never, ever change.
+(The demo currently uses an empty one. That's TODO.)
+
+```shell
+python -c "import random,string;print ''.join(random.choice(string.letters+string.digits+string.punctuation) for i in range(50))"
+```

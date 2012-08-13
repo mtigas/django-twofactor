@@ -13,14 +13,16 @@ except:
     pass
 
 # Parse out some settings, if we have 'em.
-TWOFACTOR_OPTIONS = getattr(settings, "TWOFACTOR_OPTIONS", {})
-PERIOD = TWOFACTOR_OPTIONS.get('period', 30)
-FORWARD_DRIFT = TWOFACTOR_OPTIONS.get('forward_drift', 1)
-BACKWARD_DRIFT = TWOFACTOR_OPTIONS.get('backward_drift', 1)
+TOTP_OPTIONS = getattr(settings, "TWOFACTOR_TOTP_OPTIONS", {})
+PERIOD = TOTP_OPTIONS.get('period', 30)
+FORWARD_DRIFT = TOTP_OPTIONS.get('forward_drift', 1)
+BACKWARD_DRIFT = TOTP_OPTIONS.get('backward_drift', 1)
 
 # note: Google Authenticator only outputs dec6, so changing this
 # will result in incompatibility
-DEFAULT_TOKEN_TYPE = TWOFACTOR_OPTIONS.get('default_token_type', "dec6")
+DEFAULT_TOKEN_TYPE = TOTP_OPTIONS.get('default_token_type', "dec6")
+
+ENCRYPTION_KEY = getattr(settings, "TWOFACTOR_ENCRYPTION_KEY", "")
 
 def random_seed(rawsize=10):
     """ Generates a random seed as a raw byte string. """
@@ -28,11 +30,11 @@ def random_seed(rawsize=10):
 
 def encrypt_value(raw_value):
     salt = _gen_salt()
-    return "%s$%s" %  (salt, encrypt(raw_value, salt))
+    return "%s$%s" %  (salt, encrypt(raw_value, ENCRYPTION_KEY+salt))
 
 def decrypt_value(salted_value):
     salt, encrypted_value = salted_value.split("$", 1)
-    return decrypt(encrypted_value, salt)
+    return decrypt(encrypted_value, ENCRYPTION_KEY+salt)
 
 def check_raw_seed(raw_seed, auth_code, token_type=None):
     """
