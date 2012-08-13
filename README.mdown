@@ -54,7 +54,7 @@ What does not work:
 
 ## Dependencies
 
-* [pyton-oath][py_oath] -- not to be confused with "OAuth"
+* [python-oath][py_oath] -- not to be confused with "OAuth"
 * [django][django]
 
 Optionally, for performance:
