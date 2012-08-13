@@ -1,5 +1,6 @@
 from django.conf.urls.defaults import patterns, include, url
 from django_twofactor.auth_forms import TwoFactorAuthenticationForm
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 # Replace `admin.site` with `twofactor_admin_site` before doing autodiscover
 # so that we can get the default auto-registered behavior BUT use our
@@ -19,4 +20,4 @@ urlpatterns = patterns('',
     (r'^logout/$', 'django.contrib.auth.views.logout_then_login', {
         'login_url': '/'
     }),
-)
+) + staticfiles_urlpatterns()
