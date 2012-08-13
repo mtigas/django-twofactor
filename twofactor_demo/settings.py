@@ -1,3 +1,6 @@
+import os
+ROOT = os.path.dirname(os.path.realpath(__file__))
+
 # Django settings for twofactor_demo project.
 
 DEBUG = True
@@ -12,9 +15,12 @@ MANAGERS = ADMINS
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'twofactor_demo.db',
+        'NAME': os.path.join(ROOT, 'twofactor_demo.db'),
     }
 }
+
+# so that initial_data loads from this directory
+FIXTURE_DIRS = [ROOT,]
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
