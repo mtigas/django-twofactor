@@ -91,5 +91,5 @@ method in python-oath][accept_totp] is useful to look at, too.
 (The demo currently uses an empty one. That's TODO.)
 
 ```shell
-python -c "import random,string;print ''.join(random.choice(string.letters+string.digits+string.punctuation) for i in range(50))"
+python -c "from django.utils.crypto import get_random_string;print get_random_string(50)"
 ```
