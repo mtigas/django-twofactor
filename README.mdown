@@ -1,5 +1,11 @@
 # django-twofactor
 
+&copy; 2011-2013 [Mike Tigas][miketigas] ([@mtigas](https://twitter.com/mtigas))  
+[MIT License][license]
+
+[miketigas]: https://mike.tig.as/
+[license]: https://github.com/mtigas/django-twofactor/blob/master/LICENSE
+
 A django app that allows supplementing the default `django.contrib.auth` login
 system with two-factor authentication using the Time-Based One-Time Password
 (TOTP) Algorithm spec ([RFC 6238][rfc6238]).
