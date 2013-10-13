@@ -29,6 +29,17 @@ Some notes:
 
 ---
 
+## Possible alternatives
+
+This project hasn't been touched in a while, but the proof of concept still works.
+Other similar projects may have more fleshed-out APIs and integration:
+
+* [django-otp](https://bitbucket.org/psagers/django-otp) ([PyPI](https://pypi.python.org/pypi/django-otp))
+* [django-twostepauth](https://bitbucket.org/cogni/django-twostepauth) ([PyPI](https://pypi.python.org/pypi/django-twostepauth))
+* [django-two-factor-auth](https://github.com/Bouke/django-two-factor-auth)
+
+---
+
 ## Current status
 
 This app is a work in progress. It is not much farther than "proof of concept,"
